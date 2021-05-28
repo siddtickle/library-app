@@ -41,6 +41,13 @@ app.post("/books/add", async (req, res) => {
   res.sendStatus(200);
 });
 
+app.post("/book/delete", async (req, res) => {
+  const resp = await db.collection("cities").doc(req.id).delete();
+
+  console.log(`Deleted element with id: ${req.id}`);
+  res.sendStatus(200);
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);
 });
