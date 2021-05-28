@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/books/search", async (req, res) => {
-  const api_url = "https://www.googleapis.com/books/v1/volumes?q=apple";
+  const api_url = `https://www.googleapis.com/books/v1/volumes?q=${req.query.searchTerm}`;
   const fetch_response = await fetch(api_url);
   const json = await fetch_response.json();
   res.json(json);
