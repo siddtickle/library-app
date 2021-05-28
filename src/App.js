@@ -11,6 +11,11 @@ function App() {
 
   return (
     <div style={{ textAlign: "center" }}>
+      <form>
+        <input type="text" />
+        <input type="submit" value="Search" />
+      </form>
+
       {books.map((book) => (
         <pre>{JSON.stringify(book)}</pre>
       ))}
