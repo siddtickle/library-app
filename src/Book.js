@@ -23,11 +23,19 @@ const Book = ({ book, searchBook }) => {
     // console.log(bookInfo.title, ", ", bookInfo.authors[0]);
     setBtnState(true);
 
-    let url = new URL("http://localhost:8080/books/add");
-    url.searchParams.append("title", bookInfo.title);
-    url.searchParams.append("author", bookInfo.authors);
+    let json = {
+      title: bookInfo.title,
+      author: bookInfo.authors,
+    };
 
-    fetch(url, { method: "POST" }).then((resp) => resp.json());
+    let url = new URL("http://localhost:8080/books/add");
+    // url.searchParams.append("title", bookInfo.title);
+    // url.searchParams.append("author", bookInfo.authors);
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(json),
+    }).then((resp) => resp.json());
   };
 
   const handleRemove = (e) => {
@@ -35,10 +43,17 @@ const Book = ({ book, searchBook }) => {
     // console.log(bookInfo.title, ", ", bookInfo.authors[0]);
     setBtnState(true);
 
-    let url = new URL("http://localhost:8080/books/delete");
-    url.searchParams.append("id", book.id);
+    let json = {
+      id: book.id,
+    };
 
-    fetch(url).then((resp) => resp.json());
+    let url = new URL("http://localhost:8080/books/delete");
+    // url.searchParams.append("id", book.id);
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(json),
+    }).then((resp) => resp.json());
   };
 
   return (
