@@ -12,11 +12,31 @@ const Book = ({ book, searchBook }) => {
     );
     fetch(url)
       .then((resp) => resp.json())
-      .then((resp) => setBookInfo(resp.items[0].volumeInfo));
+      .then((resp) => setBookInfo(resp.items[0].volumeInfo))
+      .catch((err) => console.log(err));
   }, [book]);
 
   if (!bookInfo) {
-    return <CircularProgress />;
+    return (
+      <div
+        style={{
+          display: "flex",
+          // border: "1px solid black",
+          padding: "20px",
+          height: "285px",
+          width: "400px",
+          boxShadow:
+            "0px 0px 3px rgba(0, 0, 0, 0.1), 0px 100px 200px rgba(92, 103, 153, 0.3)",
+          backgroundColor: "white",
+          borderRadius: "20px",
+          alignItems: "center",
+          alignContent: "center",
+          justifySelf: "center",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   const handleAdd = (e) => {
@@ -109,7 +129,7 @@ const Book = ({ book, searchBook }) => {
         <div>
           <h1
             style={{
-              overflow: "scroll",
+              overflow: "clip",
               textOverflow: "ellipsis",
               maxHeight: "120px",
               fontWeight: "normal",
