@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Book = ({ book, searchBook }) => {
   const [bookInfo, setBookInfo] = useState(null);
@@ -15,7 +16,7 @@ const Book = ({ book, searchBook }) => {
   }, [book]);
 
   if (!bookInfo) {
-    return <h1>Loading...</h1>;
+    return <CircularProgress />;
   }
 
   const handleAdd = (e) => {
@@ -23,10 +24,14 @@ const Book = ({ book, searchBook }) => {
     // console.log(bookInfo.title, ", ", bookInfo.authors[0]);
     setBtnState(true);
 
+    console.log(bookInfo.title);
+
     let json = {
       title: bookInfo.title,
       author: bookInfo.authors,
     };
+
+    // console.log(JSON.stringify(json));
 
     let url = new URL("http://localhost:8080/books/add");
     // url.searchParams.append("title", bookInfo.title);
@@ -34,14 +39,19 @@ const Book = ({ book, searchBook }) => {
 
     fetch(url, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(json),
     }).then((resp) => resp.json());
   };
 
   const handleRemove = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     // console.log(bookInfo.title, ", ", bookInfo.authors[0]);
     setBtnState(true);
+
+    console.log(book.id);
 
     let json = {
       id: book.id,
@@ -51,7 +61,10 @@ const Book = ({ book, searchBook }) => {
     // url.searchParams.append("id", book.id);
 
     fetch(url, {
-      method: "POST",
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(json),
     }).then((resp) => resp.json());
   };
@@ -94,8 +107,17 @@ const Book = ({ book, searchBook }) => {
       </div>
       <div style={{ textAlign: "center" }}>
         <div>
-          <h1>{bookInfo.title}</h1>
-          <h3>{bookInfo.authors}</h3>
+          <h1
+            style={{
+              overflow: "scroll",
+              textOverflow: "ellipsis",
+              maxHeight: "120px",
+              fontWeight: "normal",
+            }}
+          >
+            {bookInfo.title}
+          </h1>
+          <h3 style={{ fontWeight: "normal" }}>{bookInfo.authors}</h3>
         </div>
         {searchBook && (
           <div>

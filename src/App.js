@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import Book from "./Book";
+import Book from "./components/Book";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import BookProvider, { BookContext } from "./context/BookContext";
@@ -98,16 +98,8 @@ function App() {
 export default App;
 
 const Search = () => {
-  // const { books } = useContext(BookContext);
-  const { setBooks } = useContext(BookContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(null);
-
-  useEffect(() => {
-    fetch("http://localhost:8080/books/get")
-      .then((resp) => resp.json())
-      .then((resp) => setBooks(resp));
-  }, [setBooks]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -123,7 +115,7 @@ const Search = () => {
         // border: "3px solid green"
       }}
     >
-      <h1 style={{ fontSize: "50px" }}>Search 🔍</h1>
+      <h1 style={{ fontSize: "50px", fontWeight: "normal" }}>Search 🔍</h1>
       <div style={{ paddingTop: "0px" }}>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -135,6 +127,17 @@ const Search = () => {
             🔎
           </Button>
         </form>
+        {searchResults === null && (
+          <h1
+            style={{
+              paddingTop: "10vh",
+              color: "rgba(0, 0, 0, 0.3)",
+              fontWeight: "normal",
+            }}
+          >
+            Search for your desired book!
+          </h1>
+        )}
       </div>
 
       {searchResults && (
@@ -166,6 +169,9 @@ const Search = () => {
 const Home = () => {
   const { books } = useContext(BookContext);
   // const { setBooks } = useContext(BookContext);
+  const refresh = () => {
+    window.location.reload();
+  };
 
   if (!books) return <h1>Loading...</h1>;
 
@@ -176,7 +182,9 @@ const Home = () => {
         // border: "3px solid green"
       }}
     >
-      <h1 style={{ fontSize: "50px" }}>Library 📚</h1>
+      <h1 style={{ fontSize: "50px", fontWeight: "normal" }}>Library 📚</h1>
+
+      <Button onClick={refresh}>Update Library</Button>
 
       <div
         style={{

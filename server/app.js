@@ -43,10 +43,13 @@ app.post("/books/add", async (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/book/delete", async (req, res) => {
-  const resp = await db.collection("cities").doc(req.id).delete();
+app.delete("/books/delete", async (req, res) => {
+  const { id } = req.body;
+  console.log(db.collection("books").doc(id));
 
-  console.log(`Deleted element with id: ${req.id}`);
+  const resp = await db.collection("books").doc(id).delete();
+
+  console.log(`Deleted element with id: ${id}`);
   res.sendStatus(200);
 });
 
