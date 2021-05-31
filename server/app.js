@@ -32,6 +32,8 @@ app.get("/books/get", async (req, res) => {
 app.post("/books/add", async (req, res) => {
   const { title, author } = req.body;
 
+  console.log(req.body);
+
   const resp = await db.collection("books").add({
     title,
     author,
